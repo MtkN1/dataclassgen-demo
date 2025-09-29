@@ -1,28 +1,19 @@
 # dataclassgen-demo
 
-これは Python で抽象データモデルから具象データモデルを生成することが実現可能かを実験するワークスペースです。
+This workspace experiments with whether it is feasible to generate concrete data models from abstract data models in Python.
 
-**抽象データモデル**
+Abstract data models are declared using `typing.Protocol` and describe the required attributes and their types without being instantiable.
 
-抽象データモデルは `typing.Protocol` を使用して定義されます。
+Concrete data models behave like the standard library `dataclasses.dataclass`: they are instantiable and expose the same attribute type annotations.
 
-抽象データモデルはインスタンス化できませんが、属性の型アノテーションを持ちます。
+The `dataclassgen.generate_*` family of functions produces concrete data models from an abstract model.
+The goal is to support generating models compatible with the standard `dataclasses`, as well as external libraries such as `pydantic.dataclasses` and `attrs`.
 
-**具象データモデル**
+APIs provided by this module are intended to be fully type safe.
 
-具象データモデルは標準ライブラリの `dataclasses.dataclass` のように振る舞います。
+## Use case
 
-つまりインスタンス化可能であり、属性の型アノテーションを持ちます。
-
-`dataclassgen.generate_*` 関数らを使用して、抽象データモデルから具象データモデルを生成します。
-
-生成できる具象データモデルは標準の `dataclasses`, また外部ライブラリである `pydantic.dataclasses` や `attrs` のモデルをサポートすることを目指します。
-
-このモジュールの API は完全に型安全である必要があります。
-
-## ユースケース
-
-このモジュールがない場合、抽象データモデルと具象データモデルを手動で定義する必要があります:
+Without this module, you must define both an abstract model and concrete implementations manually:
 
 ```python
 import dataclasses
@@ -55,7 +46,7 @@ process_user(user_dataclass)
 process_user(user_pydantic)
 ```
 
-このモジュールを使用すると、抽象データモデルを定義し、具象データモデルを生成することができます:
+With this module, you define the abstract model once and generate concrete models programmatically:
 
 ```python
 import dataclassgen
